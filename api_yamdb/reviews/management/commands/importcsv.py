@@ -1,3 +1,5 @@
+"""Импорт csv-файлов из папки static/data/."""
+
 import sqlite3
 
 from csv import DictReader
