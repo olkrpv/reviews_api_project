@@ -7,7 +7,7 @@ from csv import DictReader
 from django.core.management import BaseCommand
 from django.shortcuts import get_object_or_404
 
-from reviews.models import Category, Genre, Title
+from reviews.models import Category, Genre, Title, Review, Comment
 from users.models import User
 
 FILES_MODELS = {
@@ -15,8 +15,8 @@ FILES_MODELS = {
     'genre.csv': Genre,
     'titles.csv': Title,
     'users.csv': User,
-    # 'review.csv': Review,
-    # 'comments.csv': Coment,
+    'review.csv': Review,
+    'comments.csv': Comment,
     'genre_title.csv': (Genre, Title)
 }
 FIELDS = {
@@ -24,7 +24,7 @@ FIELDS = {
     'title': Title,
     'genre': Genre,
     'author': User,
-    # 'review': Review,
+    'review': Review,
 }
 
 def change_foreign_keys(data_csv):
