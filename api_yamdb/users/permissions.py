@@ -18,12 +18,6 @@ class IsModerator(BasePermission):
 class IsAdminOrReadOnly(BasePermission):
     '''Доступ администратора или суперпользователя,
        для остальных - только для чтения.'''
-    # def has_permission(self, request, view):
-    #     return (
-    #         request.method in SAFE_METHODS
-    #         or request.user.is_authenticated
-    #         or request.user.is_admin
-    #     )
     def has_permission(self, request, view):
         return request.method in SAFE_METHODS or (
             request.user.is_authenticated

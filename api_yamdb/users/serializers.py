@@ -1,4 +1,5 @@
 from django.core.validators import RegexValidator
+
 from rest_framework import serializers
 
 from .models import User
@@ -57,7 +58,7 @@ class SignUpSerializer(serializers.ModelSerializer):
         validators=[RegexValidator(
             regex=r'^[\w.@+-]+$',
             message='Недопустимые символы для имени пользователя'
-                    ), ]
+        ), ]
     )
 
     class Meta:
