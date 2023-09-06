@@ -2,8 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 from django.db.models import Avg
 
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, status
 from django.shortcuts import render
+from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
@@ -13,24 +14,19 @@ from users.permissions import IsAdmin, IsModerator, IsAdminOrReadOnly
 from .serializers import GenreSerializer, CategorySerializer, TitleSerializer, TitleGETSerializer, ReviewSerializer, CommentSerializer
 from .filters import TitleFilter
 from .exceptions import ReviewAlreadyExists
+from .mixins import CreateDestroyListViewSet
 
 
-class GenreViewSet(viewsets.ModelViewSet):
+class GenreViewSet(CreateDestroyListViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
-    permission_classes = (IsAdminOrReadOnly,)
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
     
 
-class CategoryViewSet(viewsets.ModelViewSet):
+class CategoryViewSet(CreateDestroyListViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     pagination_class = LimitOffsetPagination
-    permission_classes = (IsAdminOrReadOnly,)
-    filter_backends = (filters.SearchFilter,)
-    search_fields = ('name',)
-    
+        
 
 class TitleViewSet(viewsets.ModelViewSet):
     queryset = Title.objects.annotate(rating=Avg('reviews__score')).all()
