@@ -1,13 +1,11 @@
 """Импорт csv-файлов из папки static/data/."""
 
-import sqlite3
-
 from csv import DictReader
 
 from django.core.management import BaseCommand
 from django.shortcuts import get_object_or_404
 
-from reviews.models import Category, Genre, Title, Review, Comment
+from reviews.models import Category, Comment, Genre, Review, Title
 from users.models import User
 
 FILES_MODELS = {
@@ -27,6 +25,7 @@ FIELDS = {
     'review': Review,
 }
 
+
 def change_foreign_keys(data_csv):
     """Изменяет значения внешних ключей при загрузке"""
     change_data = data_csv.copy()
@@ -34,6 +33,7 @@ def change_foreign_keys(data_csv):
         if key in FIELDS.keys():
             change_data[key] = FIELDS[key].objects.get(pk=value)
     return change_data
+
 
 class Command(BaseCommand):
 
@@ -51,7 +51,7 @@ class Command(BaseCommand):
                             ex_model.save()
                         else:
                             title_obj = get_object_or_404(
-                                Title, 
+                                Title,
                                 id=data_csv['title_id']
                             )
                             genre_obj = get_object_or_404(
