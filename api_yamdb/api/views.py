@@ -1,4 +1,3 @@
-from django.db import IntegrityError
 from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 
@@ -8,7 +7,6 @@ from rest_framework.pagination import LimitOffsetPagination
 from reviews.models import Category, Genre, Review, Title
 from users.permissions import IsAdminOrReadOnly, IsModerator
 
-from .exceptions import ReviewAlreadyExists
 from .filters import TitleFilter
 from .mixins import CreateDestroyListViewSet
 from .serializers import (
@@ -60,12 +58,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
         title = get_object_or_404(Title, id=title_id)
         serializer.save(author=self.request.user, title=title)
 
-    def create(self, request, *args, **kwargs):
-        try:
-            return super().create(request, *args, **kwargs)
-        except IntegrityError:
-            raise ReviewAlreadyExists()
-
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
@@ -74,7 +66,9 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         review_id = self.kwargs.get('review_pk')
-        review = get_object_or_404(Review, id=review_id)
+        title_id = self.kwargs.get('title_pk')
+        title = get_object_or_404(Title, id=title_id)
+        review = get_object_or_404(Review, id=review_id, title=title)
         return review.comments.all()
 
     def perform_create(self, serializer):
