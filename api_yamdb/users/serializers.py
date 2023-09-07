@@ -23,32 +23,11 @@ class UserSerializer(serializers.ModelSerializer):
                 'Username "me" невозможен для регистрации.'
                 'Примените фантазию.'
             )
-        elif name is None or name == "":
-            raise serializers.ValidationError(
-                'Поле  "Username" не может быть пустым'
-            )
         return name
-
-    def validate_email(self, email):
-        if email is None or email == "":
-            raise serializers.ValidationError(
-                'Поле  "Email" не может быть пустым'
-            )
-        return email
 
 
 class UserMeSerializer(UserSerializer):
     role = serializers.CharField(read_only=True)
-    # class Meta:
-    #     model = User
-    #     fields = (
-    #         'username',
-    #         'email',
-    #         'first_name',
-    #         'last_name',
-    #         'bio',
-    #         'role')
-    #     read_only_fields = ('role',)
 
 
 class SignUpSerializer(serializers.ModelSerializer):
@@ -93,16 +72,3 @@ class SignUpSerializer(serializers.ModelSerializer):
 class TokenSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=150)
     confirmation_code = serializers.CharField(max_length=255)
-
-    def validate(self, data):
-        username = data.get('username')
-        confirmation_code = data.get('confirmation_code')
-        if username is None:
-            raise serializers.ValidationError(
-                'Требуется ввести имя пользователя'
-            )
-        if confirmation_code is None:
-            raise serializers.ValidationError(
-                'Требуется ввести код подтверждения'
-            )
-        return data
