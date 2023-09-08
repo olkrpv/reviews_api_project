@@ -106,6 +106,7 @@ class Command(BaseCommand):
                             self.stderr.write(self.style.WARNING(f'{error}'))
                             raise Exception(error)
                     self.stdout.write(
-                        self.style.SUCCESS(f'Successfully load {options[parameter]}')
+                        self.style.SUCCESS(
+                            f'Successfully load {options[parameter]}'
+                        )
                     )
-
