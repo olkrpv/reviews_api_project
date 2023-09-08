@@ -47,6 +47,10 @@ class TitleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Title
         fields = ('id', 'name', 'year', 'description', 'category', 'genre')
+    
+    def to_representation(self, instance):
+        serializer = TitleGETSerializer(instance)
+        return serializer.data
 
 
 class GetTitleId:
