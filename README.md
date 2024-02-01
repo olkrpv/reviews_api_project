@@ -9,11 +9,11 @@
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone git@github.com:olkrpv/api_yamdb.git
+git clone git@github.com:olkrpv/reviews_api_project.git
 ```
 
 ```
-cd api_yamdb
+cd reviews_api_project
 ```
 
 Cоздать виртуальное окружение:
