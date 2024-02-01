@@ -68,10 +68,10 @@ python3 manage.py importcsv
 http://127.0.0.1:8000/redoc/
 
 ### Стек технологий:
-- Python
+- Python 3.9
 - Django Framework
 - Django Rest Framework
-- Djoser/Simple JWT
+- JWT+Djoser
 
 ### Дополнительная информация
 Над проектом работали:
